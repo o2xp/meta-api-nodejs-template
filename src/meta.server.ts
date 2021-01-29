@@ -3,16 +3,18 @@ import https from "https";
 import http from "http";
 import { Application } from "express";
 import app from "./App";
+import logger from "./utils/winston.logger";
+import { CERTIFICATE_SRV, CRT_PRIVATE_SRV_KEY, ENVIRONMENT, isPRODEnv, META_PORT } from "./utils/secrets.helper";
 
 dotenv.config();
 
+logger.info("NODE_ENV is " + ENVIRONMENT);
+
 let server: https.Server | http.Server | Application;
 
-const isPRODEnv = false;
-const META_PORT = 5000;
 
 if (isPRODEnv) {
-	const credentials = { key: "CRT_PRIVATE_SRV_KEY", cert: "CERTIFICATE_SRV" };
+	const credentials = { key: CRT_PRIVATE_SRV_KEY, cert: CERTIFICATE_SRV };
 	server = https.createServer(credentials, app);
 } else {
 	server = http.createServer(app);

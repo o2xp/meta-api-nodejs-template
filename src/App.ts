@@ -6,16 +6,21 @@ import helmet from "helmet";
 import cors from "cors";
 import { Request, Response, Application } from "express";
 import pjson from "../package.json";
+import logger, { errorLogger, requestLogger } from "./utils/winston.logger";
 
 class App {
 	public app: express.Application;
 
 	constructor() {
+		logger.debug(`META VERSION: ${pjson.version}`);
+		logger.debug(`Time: ${new Date()}`);
 		dotenv.config();
 		this.app = express();
 
         this.config();
         this.initGlobalRoute(this.app);
+		// ErrorLogger makes sense AFTER the router.
+		this.app.use(errorLogger);
 	}
 
 	private config(): void {
@@ -38,6 +43,9 @@ class App {
 		this.app.use(bodyParser.json({ limit: 50000000 }));
 		// Support application/x-www-form-urlencoded post data.
 		this.app.use(bodyParser.urlencoded({ extended: true }));
+		// Logger makes sense BEFORE the router.
+		// It will log all the express requests.
+		this.app.use(requestLogger);
 	}
 
 	private shouldExpressCompress(req, res) {
