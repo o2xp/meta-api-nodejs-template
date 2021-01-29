@@ -1,0 +1,60 @@
+{
+	"name": "meta-api-gateway",
+	"version": "1.0.0",
+	"description": "NodeJS Gateway Template with access management and 4eyes",
+	"main": "src/meta.server.ts",
+	"repository": {
+		"type": "git",
+		"url": "https://github.deutsche-boerse.de/dev/cs.meta.git"
+	},
+	"author": "",
+	"license": "MIT",
+	"scripts": {
+		"start": "npm run serve",
+		"build": "npm run build-ts",
+		"serve": "node ./build/src/meta.server.js",
+		"lint": "eslint src/**/*.ts --quiet --fix",
+		"watch-ts": "tsc -w",
+		"build-ts": "tsc",
+		"build-dev": "npm run build-ts && npm run lint",
+		"test": "jest --coverage --verbose",
+		"prettier": "prettier --write src/**/*.ts",
+		"dev": "ts-node-dev --respawn --transpile-only ./src/meta.server.ts",
+		"debug": "tsc --sourcemap",
+		"version": "echo $npm_package_version"
+	},
+	"dependencies": {
+		"axios": "^0.20.0",
+		"typescript": "^3.7.5",
+		"compression": "^1.7.4",
+		"uuid": "^8.3.1",
+		"cors": "^2.8.5",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"helmet": "^4.1.1",
+		"lodash": "^4.17.20",
+		"sinon": "^9.2.0",
+		"winston": "^3.3.3"
+	},
+	"devDependencies": {
+		"@types/cron": "^1.7.2",
+		"@types/lodash": "^4.14.161",
+		"@types/safe-json-stringify": "^1.1.2",
+		"@types/uuid": "^8.3.0",
+		"@typescript-eslint/eslint-plugin": "^4.4.0",
+		"@typescript-eslint/parser": "^4.4.0",
+		"eslint": "^7.8.1",
+		"eslint-config-prettier": "^6.12.0",
+		"eslint-plugin-import": "^2.22.1",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-prettier": "^3.1.4",
+		"eslint-plugin-security": "^1.4.0",
+		"husky": "^4.3.0",
+		"lint-staged": "^10.4.0",
+		"nodemon": "^2.0.4",
+		"prettier": "^2.1.2",
+		"ts-jest": "^26.4.1",
+		"ts-node": "^9.0.0",
+		"ts-node-dev": "^1.0.0"
+	}
+}
