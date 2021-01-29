@@ -9,7 +9,7 @@ To build and run this app locally you will need a few things:
 - Fork the repo on your github.
 
 ```sh
-$ git clone https://github.deutsche-boerse.de/<YOUR_USERNAME>/cs.meta.git 
+$ git clone https://github.com/o2xp/meta-api-gateway.git
 $ npm install
 ```
 
