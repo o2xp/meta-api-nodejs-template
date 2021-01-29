@@ -24,7 +24,7 @@
 		"version": "echo $npm_package_version"
 	},
 	"dependencies": {
-		"axios": "^0.20.0",
+		"axios": "^0.21.1",
 		"typescript": "^3.7.5",
 		"compression": "^1.7.4",
 		"uuid": "^8.3.1",
