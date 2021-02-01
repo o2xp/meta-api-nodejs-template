@@ -44,6 +44,9 @@
 		"helmet": "^4.1.1",
 		"lodash": "^4.17.20",
 		"sinon": "^9.2.0",
+		"jest": "^26.5.2",
+		"stable": "^0.1.8",
+		"supertest": "^5.0.0",
 		"winston": "^3.3.3"
 	},
 	"devDependencies": {
@@ -120,5 +123,52 @@
 				"double"
 			]
 		}
+	},
+	"jest": {
+		"modulePathIgnorePatterns": [
+			"<rootDir>/src/tests/sandbox.test.ts"
+		],
+		"roots": [
+			"<rootDir>/src"
+		],
+		"testMatch": [
+			"**/__tests__/**/*.+(ts|tsx|js)",
+			"**/?(*.)+(spec|test).+(ts|tsx|js)"
+		],
+		"transform": {
+			"^.+\\.(ts|tsx)$": "ts-jest"
+		},
+		"moduleFileExtensions": [
+			"ts",
+			"js"
+		],
+		"collectCoverageFrom": [
+			"src/**/*.ts",
+			"!<rootDir>/src/models/**/*.ts",
+			"!<rootDir>/src/tests/mockBE/*.ts",
+			"!<rootDir>/src/tests/data/*.ts",
+			"!<rootDir>/src/meta.server.ts",
+			"!<rootDir>/src/utils/winston.logger.ts",
+			"!<rootDir>/src/utils/fetcher.helper.ts",
+			"!<rootDir>/src/utils/secrets.helper.ts",
+			"!<rootDir>/src/utils/authorization.helper.ts"
+		],
+		"testEnvironment": "node",
+		"setupFiles": [
+			"<rootDir>/src/tests/setup.ts"
+		]
+	},
+	"nodemonConfig": {
+		"ignore": [
+			"**/*.test.ts",
+			"**/*.spec.ts",
+			".git",
+			"node_modules"
+		],
+		"watch": [
+			"src"
+		],
+		"exec": "npm start",
+		"ext": "ts"
 	}
 }
