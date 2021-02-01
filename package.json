@@ -24,6 +24,16 @@
 		"version": "echo $npm_package_version"
 	},
 	"dependencies": {
+		"@types/cors": "^2.8.7",
+		"@types/diff": "^4.0.2",
+		"@types/express": "4.17.7",
+		"@types/helmet": "0.0.48",
+		"@types/jest": "^26.0.14",
+		"@types/jwt-decode": "^2.2.1",
+		"@types/node": "^14.11.5",
+		"@types/oracledb": "^5.0.0",
+		"@types/sinon": "^9.0.8",
+		"@types/supertest": "^2.0.10",
 		"axios": "^0.21.1",
 		"typescript": "^3.7.5",
 		"compression": "^1.7.4",
@@ -56,5 +66,59 @@
 		"ts-jest": "^26.4.1",
 		"ts-node": "^9.0.0",
 		"ts-node-dev": "^1.0.0"
+	},
+	"eslintConfig": {
+		"parser": "@typescript-eslint/parser",
+		"extends": [
+			"plugin:@typescript-eslint/recommended",
+			"prettier/@typescript-eslint",
+			"plugin:prettier/recommended"
+		],
+		"parserOptions": {
+			"ecmaVersion": 2018,
+			"sourceType": "module"
+		},
+		"plugins": [
+			"@typescript-eslint",
+			"node",
+			"security"
+		],
+		"rules": {
+			"constructor-super": "warn",
+			"curly": "warn",
+			"eqeqeq": "warn",
+			"no-buffer-constructor": "error",
+			"no-caller": "error",
+			"no-debugger": "warn",
+			"no-duplicate-case": "warn",
+			"no-duplicate-imports": "warn",
+			"no-eval": "error",
+			"no-extra-semi": "warn",
+			"no-new-wrappers": "warn",
+			"no-redeclare": "off",
+			"no-sparse-arrays": "warn",
+			"no-throw-literal": "error",
+			"no-unsafe-finally": "warn",
+			"no-unused-labels": "warn",
+			"no-restricted-globals": [
+				"warn",
+				"name",
+				"length",
+				"event",
+				"closed",
+				"external",
+				"status",
+				"origin",
+				"orientation"
+			],
+			"no-var": "error",
+			"semi": "warn",
+			"@typescript-eslint/semi": "warn",
+			"@typescript-eslint/no-empty-function": "off",
+			"quotes": [
+				"error",
+				"double"
+			]
+		}
 	}
 }

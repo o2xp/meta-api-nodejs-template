@@ -1,6 +1,10 @@
 import dotenv from "dotenv";
 import fs from "fs";
 
+////////////////////////////////////////////
+// Don't use wiston logger in this file.///
+//////////////////////////////////////////
+
 
 if (fs.existsSync(".env")) {
 	// logger.debug("Using .env file to supply config environment variables");
@@ -11,6 +15,10 @@ if (fs.existsSync(".env")) {
 export const META_PORT = process.env.META_PORT || 5000;
 export const ENVIRONMENT = process.env.NODE_ENV;
 export const isPRODEnv = ENVIRONMENT === "production"; 
+
+export const LOGGER_PATH = "/ext/logs/meta"
+
+export const META_BASE_ROUTE = "/"
 
 // export certificate information;
 export const CRT_PRIVATE_SRV_KEY = isPRODEnv

@@ -7,6 +7,7 @@ import cors from "cors";
 import { Request, Response, Application } from "express";
 import pjson from "../package.json";
 import logger, { errorLogger, requestLogger } from "./utils/winston.logger";
+import initExampleRoutes from "./routes/example.route";
 
 class App {
 	public app: express.Application;
@@ -18,7 +19,8 @@ class App {
 		this.app = express();
 
         this.config();
-        this.initGlobalRoute(this.app);
+		initExampleRoutes(this.app);
+		
 		// ErrorLogger makes sense AFTER the router.
 		this.app.use(errorLogger);
 	}
@@ -55,22 +57,6 @@ class App {
 		}
 		// fallback to standard filter function
 		return compression.filter(req, res);
-    }
-    
-    private initGlobalRoute(app: Application): void {
-        const baseRoute = "/meta";
-
-		app.get(baseRoute, (req: Request, res: Response) => {
-			res.json({ message: `Welcome to META v${pjson.version}` });
-		});
-
-		app.get(baseRoute+"/version", (req: Request, res: Response) => {
-			res.json(pjson.version);
-		});
-
-		app.use((req: Request, res: Response) => {
-			res.status(404).send({ url: `${req.originalUrl} not found` });
-		});
     }
 }
 

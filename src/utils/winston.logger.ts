@@ -3,6 +3,7 @@ import fs from "fs";
 import { createLogger, format, transports, LoggerOptions } from "winston";
 import { Request, Response } from "express";
 import safeJsonStringify from "safe-json-stringify";
+import { LOGGER_PATH } from "./secrets.helper";
 
 // const levels = {
 //     error: 0,
@@ -13,8 +14,6 @@ import safeJsonStringify from "safe-json-stringify";
 //     debug: 5,
 //     silly: 6
 // };
-
-const logingPath = "/ext/logs/meta"
 
 //////////////////////////////Normal Logger////////////////////////////////
 const timezoned = () => {
@@ -40,19 +39,19 @@ function getFormatter() {
 let loggerTransports;
 
 if (process.env.NODE_ENV === "production") {
-	if (!fs.existsSync(logingPath)) {
-		fs.mkdirSync(logingPath, { recursive: true });
+	if (!fs.existsSync(LOGGER_PATH)) {
+		fs.mkdirSync(LOGGER_PATH, { recursive: true });
 	}
 	loggerTransports = [
 		new transports.Console({
 			level: "info"
 		}),
 		new transports.File({
-			filename: logingPath + "/metaErrors.log",
+			filename: LOGGER_PATH + "/metaErrors.log",
 			level: "error"
 		}),
 		new transports.File({
-			filename: logingPath + "/metaLogs.log",
+			filename: LOGGER_PATH + "/metaLogs.log",
 			level: "debug"
 		})
 	];
@@ -83,19 +82,19 @@ export default logger;
 let requestTransports;
 
 if (process.env.NODE_ENV === "production") {
-	if (!fs.existsSync(logingPath)) {
-		fs.mkdirSync(logingPath, { recursive: true });
+	if (!fs.existsSync(LOGGER_PATH)) {
+		fs.mkdirSync(LOGGER_PATH, { recursive: true });
 	}
 	requestTransports = [
 		new transports.Console({
 			level: "error"
 		}),
 		new transports.File({
-			filename: logingPath + "/metaRequestErrors.log",
+			filename: LOGGER_PATH + "/metaRequestErrors.log",
 			level: "error"
 		}),
 		new transports.File({
-			filename: logingPath + "/metaLogs.log",
+			filename: LOGGER_PATH + "/metaLogs.log",
 			level: "debug"
 		})
 	];
