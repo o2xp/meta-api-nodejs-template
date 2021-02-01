@@ -8,7 +8,9 @@ class ExampleController {
   }
 
   public getUserDetails = (req: Request, res: Response): void => {
-    const result = this.exampleSrvc.getUserDetails();
+    const result = this.exampleSrvc.getUserDetails(
+      req.headers["userId"].toString()
+    );
 
     res.send(result);
   };

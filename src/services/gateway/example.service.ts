@@ -1,8 +1,8 @@
 class ExampleService {
   public constructor() {}
 
-  public getUserDetails(): string {
-    return "Hello";
+  public getUserDetails(userId: string): string {
+    return "Hello " + userId;
   }
 }
 

@@ -4,10 +4,10 @@ import express from "express";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import cors from "cors";
-import { Request, Response, Application } from "express";
 import pjson from "../package.json";
 import logger, { errorLogger, requestLogger } from "./utils/winston.logger";
 import initExampleRoutes from "./routes/example.route";
+import { clientUserid } from "./utils/userManagement.helper";
 
 class App {
   public app: express.Application;
@@ -45,6 +45,8 @@ class App {
     this.app.use(bodyParser.json({ limit: 50000000 }));
     // Support application/x-www-form-urlencoded post data.
     this.app.use(bodyParser.urlencoded({ extended: true }));
+    // Fetch connected user from Request Headers and store it in req.headers["userId"].
+    this.app.use(clientUserid);
     // Logger makes sense BEFORE the router.
     // It will log all the express requests.
     this.app.use(requestLogger);
