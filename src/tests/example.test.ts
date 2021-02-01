@@ -34,7 +34,7 @@ describe("global controller should handle", () => {
   it("return 404", async () => {
     const url = "/test/doesntexist";
     const res = await request(app).get(url);
-    expect(res.body).toEqual({ url: `${url} not found` });
+    expect(res.status).toEqual(404);
   });
 });
 
