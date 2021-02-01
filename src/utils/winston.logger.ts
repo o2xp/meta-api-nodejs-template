@@ -17,62 +17,62 @@ import { LOGGER_PATH } from "./secrets.helper";
 
 //////////////////////////////Normal Logger////////////////////////////////
 const timezoned = () => {
-	return new Date().toLocaleString("en-GB", {
-		timeZone: "Europe/Brussels",
-		hour12: false
-	});
+  return new Date().toLocaleString("en-GB", {
+    timeZone: "Europe/Brussels",
+    hour12: false,
+  });
 };
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function getFormatter() {
-	const { combine, timestamp, printf, colorize, json } = format;
+  const { combine, timestamp, printf, colorize, json } = format;
 
-	return combine(
-		colorize(),
-		json(),
-		timestamp({
-			format: timezoned
-		}),
-		printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
-	);
+  return combine(
+    colorize(),
+    json(),
+    timestamp({
+      format: timezoned,
+    }),
+    printf((info) => `${info.timestamp} ${info.level}: ${info.message}`)
+  );
 }
 
 let loggerTransports;
 
 if (process.env.NODE_ENV === "production") {
-	if (!fs.existsSync(LOGGER_PATH)) {
-		fs.mkdirSync(LOGGER_PATH, { recursive: true });
-	}
-	loggerTransports = [
-		new transports.Console({
-			level: "info"
-		}),
-		new transports.File({
-			filename: LOGGER_PATH + "/metaErrors.log",
-			level: "error"
-		}),
-		new transports.File({
-			filename: LOGGER_PATH + "/metaLogs.log",
-			level: "debug"
-		})
-	];
+  if (!fs.existsSync(LOGGER_PATH)) {
+    fs.mkdirSync(LOGGER_PATH, { recursive: true });
+  }
+  loggerTransports = [
+    new transports.Console({
+      level: "info",
+    }),
+    new transports.File({
+      filename: LOGGER_PATH + "/metaErrors.log",
+      level: "error",
+    }),
+    new transports.File({
+      filename: LOGGER_PATH + "/metaLogs.log",
+      level: "debug",
+    }),
+  ];
 } else {
-	// Specifying the info level includes all levels that are more severe.
-	// If you want' to log more, set the level of logging to "debug", in development.
-	loggerTransports = [
-		new transports.Console({
-			level: "debug"
-		})
-	];
+  // Specifying the info level includes all levels that are more severe.
+  // If you want' to log more, set the level of logging to "debug", in development.
+  loggerTransports = [
+    new transports.Console({
+      level: "debug",
+    }),
+  ];
 }
 
 const options: LoggerOptions = {
-	transports: loggerTransports,
-	format: getFormatter()
+  transports: loggerTransports,
+  format: getFormatter(),
 };
 const logger = createLogger(options);
 
 if (process.env.NODE_ENV !== "production") {
-	logger.debug("Logging initialized at debug level");
+  logger.debug("Logging initialized at debug level");
 }
 
 export default logger;
@@ -82,110 +82,110 @@ export default logger;
 let requestTransports;
 
 if (process.env.NODE_ENV === "production") {
-	if (!fs.existsSync(LOGGER_PATH)) {
-		fs.mkdirSync(LOGGER_PATH, { recursive: true });
-	}
-	requestTransports = [
-		new transports.Console({
-			level: "error"
-		}),
-		new transports.File({
-			filename: LOGGER_PATH + "/metaRequestErrors.log",
-			level: "error"
-		}),
-		new transports.File({
-			filename: LOGGER_PATH + "/metaLogs.log",
-			level: "debug"
-		})
-	];
+  if (!fs.existsSync(LOGGER_PATH)) {
+    fs.mkdirSync(LOGGER_PATH, { recursive: true });
+  }
+  requestTransports = [
+    new transports.Console({
+      level: "error",
+    }),
+    new transports.File({
+      filename: LOGGER_PATH + "/metaRequestErrors.log",
+      level: "error",
+    }),
+    new transports.File({
+      filename: LOGGER_PATH + "/metaLogs.log",
+      level: "debug",
+    }),
+  ];
 } else {
-	requestTransports = [
-		new transports.Console({
-			level: "info"
-		})
-	];
+  requestTransports = [
+    new transports.Console({
+      level: "info",
+    }),
+  ];
 }
 
 function getRequestLogFormatter() {
-	const {
-		combine,
-		timestamp,
-		printf,
-		colorize,
-		json,
-		prettyPrint,
-		splat,
-		simple
-	} = format;
+  const {
+    combine,
+    timestamp,
+    printf,
+    colorize,
+    json,
+    prettyPrint,
+    splat,
+    simple,
+  } = format;
 
-	return combine(
-		colorize(),
-		json(),
-		timestamp({
-			format: timezoned
-		}),
-		prettyPrint(),
-		splat(),
-		simple(),
-		printf((info: any) => {
-			const { req, res } = info.message;
+  return combine(
+    colorize(),
+    json(),
+    timestamp({
+      format: timezoned,
+    }),
+    prettyPrint(),
+    splat(),
+    simple(),
+    printf((info: any) => {
+      const { req, res } = info.message;
 
-			return `${info.timestamp} ${info.level}: ${req.hostname}${req.port || ""} ${
-				(req as Request).method
-			} ${req.originalUrl} PrincipalId: ${
-				req.headers["userId"] ? req.headers["userId"] : ""
-			} 
+      return `${info.timestamp} ${info.level}: ${req.hostname}${
+        req.port || ""
+      } ${(req as Request).method} ${req.originalUrl} PrincipalId: ${
+        req.headers["userId"] ? req.headers["userId"] : ""
+      } 
 			Body Lenght: ${req.body ? Object.keys(req.body).length : 0}`;
-		})
-	);
+    })
+  );
 }
 
 function getRequestErrorFormatter() {
-	const { combine, timestamp, printf, colorize, json } = format;
+  const { combine, timestamp, printf, colorize, json } = format;
 
-	return combine(
-		colorize(),
-		json(),
-		timestamp({
-			format: timezoned
-		}),
-		printf((info: any) => {
-			const { req, res } = info.message;
-			const returnedMessage = `${info.timestamp} ${info.level}: ${req.hostname}${
-				req.port || ""
-			} ${(req as Request).method}  ${req.originalUrl} PrincipalId: ${
-				req.headers["userId"] ? req.headers["userId"] : ""
-			} 
+  return combine(
+    colorize(),
+    json(),
+    timestamp({
+      format: timezoned,
+    }),
+    printf((info: any) => {
+      const { req, res } = info.message;
+      const returnedMessage = `${info.timestamp} ${info.level}: ${
+        req.hostname
+      }${req.port || ""} ${(req as Request).method}  ${
+        req.originalUrl
+      } PrincipalId: ${req.headers["userId"] ? req.headers["userId"] : ""} 
 			Body Lenght: ${req.body ? Object.keys(req.body).length : 0}`;
 
-			return returnedMessage;
-		})
-	);
+      return returnedMessage;
+    })
+  );
 }
 
 function createRequestLogger() {
-	const requestLogger = createLogger({
-		format: getRequestLogFormatter(),
-		transports: requestTransports
-	});
+  const requestLogger = createLogger({
+    format: getRequestLogFormatter(),
+    transports: requestTransports,
+  });
 
-	return function logRequest(req, res, next): void {
-		requestLogger.info({ req, res });
-		next();
-	};
+  return function logRequest(req, res, next): void {
+    requestLogger.info({ req, res });
+    next();
+  };
 }
 
 function createRequestErrorLogger() {
-	const errLogger = createLogger({
-		level: "error",
-		transports: requestTransports,
-		format: getRequestErrorFormatter()
-	});
+  const errLogger = createLogger({
+    level: "error",
+    transports: requestTransports,
+    format: getRequestErrorFormatter(),
+  });
 
-	return function logError(err, req, res, next): void {
-		errLogger.error({ err, req, res });
-		next();
-	};
+  return function logError(err, req, res, next): void {
+    errLogger.error({ err, req, res });
+    next();
+  };
 }
 export const requestLogger = createRequestLogger();
 export const errorLogger = createRequestErrorLogger();
