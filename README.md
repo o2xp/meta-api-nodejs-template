@@ -1,4 +1,5 @@
-# meta-api-gateway
+# meta-api-nodejs-template
+A project structure template for you NodeJs project.  
 
 ## Pre-reqs
 To build and run this app locally you will need a few things:
